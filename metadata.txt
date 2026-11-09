@@ -1,0 +1,17 @@
+[general]
+name=Adjacent Polygon Attribute Checker
+qgisMinimumVersion=3.28
+description=Detect connected adjacent polygon groups with optional multi-field attribute matching and per-field value filters.
+version=0.3.1
+author=Geoscicorner Project
+email=geoscicorner@gmail.com
+about=An attribute-aware polygon adjacency checker for GIS quality control.
+category=Vector
+icon=icon.png
+experimental=False
+deprecated=False
+hasProcessingProvider=False
+tracker=https://github.com/geoscicorner-project/AdjacentPolygonAttributeChecker/issues
+repository=https://github.com/geoscicorner-project/AdjacentPolygonAttributeChecker
+homepage=https://github.com/geoscicorner-project/AdjacentPolygonAttributeChecker
+tags=polygon,adjacency,topology,quality control,attribute,vector
