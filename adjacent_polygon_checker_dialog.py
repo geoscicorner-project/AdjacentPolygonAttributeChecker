@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os, re, traceback
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import Qt, QTimer
 from qgis.PyQt.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel,
     QRadioButton, QComboBox, QPushButton, QLineEdit, QFileDialog, QListWidget,
     QListWidgetItem, QCheckBox, QDoubleSpinBox, QProgressBar, QPlainTextEdit,
@@ -17,10 +17,27 @@ class AdjacentPolygonCheckerDialog(QDialog):
         self.iface, self.external_layer = iface, None
         self.value_filters = {}
         self.setWindowTitle("Adjacent Polygon Attribute Checker")
-        self.resize(610, 610)
         self.setMinimumSize(560, 520)
         self._build_ui()
         self.refresh_project_layers()
+
+        # Keep the original width and provide enough initial height for
+        # the complete layout, matching the tidy state after manual dragging.
+        self.resize(610, 760)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        # Qt may calculate child-widget geometry too early on the first
+        # show after QGIS starts. Re-activate the existing layout once the
+        # dialog has been shown; do not alter its size or other behavior.
+        QTimer.singleShot(0, self._activate_initial_layout)
+
+    def _activate_initial_layout(self):
+        layout = self.layout()
+        if layout is not None:
+            layout.invalidate()
+            layout.activate()
+        self.updateGeometry()
 
     def _build_ui(self):
         root = QVBoxLayout(self)
